@@ -1,0 +1,11 @@
+<p>
+  test-threejs-05 works!
+</p>
+<button (click)="onDownload3DCapture()">Capture 3D and download png</button>
+<button (click)="onPauseAnimation()">Pause</button>
+<button (click)="onPlayAnimation()">Play</button>
+<button (click)="onToggleAnimation()">Toggle</button>
+<a href="" #imglinksel></a>
+<img [hidden]="!showImageShot" src="" #imgsel height="40px"/>
+<div #statsel></div>
+<div #containerel></div>
