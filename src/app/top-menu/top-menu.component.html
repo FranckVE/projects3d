@@ -1,9 +1,19 @@
-<p>
-  top-menu works!
-    <a routerLink="testThreejs01">testThreejs01</a>
-    <a routerLink="testThreejs02">testThreejs02</a>
-    <a routerLink="testThreejs03">testThreejs03</a>
-    <a routerLink="testThreejs04">testThreejs04</a>
-    <a routerLink="testThreejs05">testThreejs05</a>
-    <a routerLink="testLoadImage01">testLoadImage01</a>
-</p>
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="/assets/img/np_sphere_538470_D80015.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+        Projects3D
+    </a>
+    <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>ALL Demos</button>
+        <button type="button" class="btn btn-primary" routerLink="testThreejs05">Full Demo</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button class="dropdown-item" routerLink="testThreejs01">testThreejs01</button>
+            <button class="dropdown-item" routerLink="testThreejs02">testThreejs02</button>
+            <button class="dropdown-item" routerLink="testThreejs03">testThreejs03</button>
+            <button class="dropdown-item" routerLink="testThreejs04">testThreejs04</button>
+            <button class="dropdown-item" routerLink="testThreejs05">testThreejs05</button>
+            <button class="dropdown-item" routerLink="testLoadImage01">testLoadImage01</button>
+        </div>
+        <button type="button" class="btn btn-danger" routerLink="testThreejs02">Good static example</button>
+    </div>
+</nav>

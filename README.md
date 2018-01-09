@@ -234,3 +234,25 @@ You remove the name present in `package.json` corresponding to the module to rem
 ```bash
 yarn remove new-three-orbitcontrols-ts
 ```
+
+
+## Install Bootstrap 4
+
+```bash
+yarn add bootstrap@next
+```
+
+We need to add @next to the package name because at the time of writing this post Bootstrap 4 is still in beta. The @next addition makes sure that version 4 of Bootstrap is installed, not version 3.
+
+
+```bash
+yarn add bootstrap@4.0.0-beta.2
+```
+NB:  this version works better than `add bootstrap@4.0.0-beta.3`
+
+
+## Install ng-bootstrap
+
+```bash
+yarn add @ng-bootstrap/ng-bootstrap
+```

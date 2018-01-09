@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { TopMenuModule } from "./top-menu/top-menu.module";
 import { HttpClientModule } from "@angular/common/http";
 import { ThreePrimitivesService } from "./appServices/three-primitives.service";
+import { NgbDropdownConfig, NgbPopoverConfig, NgbTooltipConfig } from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { ThreePrimitivesService } from "./appServices/three-primitives.service";
         HttpClientModule,
         TopMenuModule,
     ],
-    providers: [ThreePrimitivesService],
+    providers: [ThreePrimitivesService, NgbDropdownConfig, NgbTooltipConfig, NgbPopoverConfig],
     bootstrap: [AppComponent]
 })
 export class AppModule {

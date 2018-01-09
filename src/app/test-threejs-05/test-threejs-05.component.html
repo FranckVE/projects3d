@@ -1,11 +1,17 @@
-<p>
-  test-threejs-05 works!
-</p>
-<button (click)="onDownload3DCapture()">Capture 3D and download png</button>
-<button (click)="onPauseAnimation()">Pause</button>
-<button (click)="onPlayAnimation()">Play</button>
-<button (click)="onToggleAnimation()">Toggle</button>
-<a href="" #imglinksel></a>
-<img [hidden]="!showImageShot" src="" #imgsel height="40px"/>
-<div #statsel></div>
-<div #containerel></div>
+<div class="container">
+    <div class="alert alert-primary" role="alert">
+        This is a primary alert—check it out!
+    </div>
+    <button type="button" class="btn btn-outline-secondary" placement="top" ngbTooltip="Capture 3D image and download as a PNG file" (click)="onDownload3DCapture()">Capture 3D Image</button>
+    <button type="button" class="btn btn-outline-secondary" placement="top" ngbTooltip="Pause the animation" (click)="onPauseAnimation()">Pause</button>
+    <button type="button" class="btn btn-outline-secondary" placement="top" ngbTooltip="Play the animation" (click)="onPlayAnimation()">Play</button>
+    <button type="button" class="btn btn-outline-secondary" placement="top" ngbTooltip="Toggle between Play and Pause the animation" (click)="onToggleAnimation()">Toggle</button>
+    <button type="button" class="btn btn-outline-secondary" placement="right"
+            ngbPopover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." popoverTitle="Popover on top">
+        ?
+    </button>
+    <a href="" #imglinksel></a>
+    <img [hidden]="!showImageShot" src="" #imgsel height="40px"/>
+    <div #statsel></div>
+    <div #containerel></div>
+</div>
