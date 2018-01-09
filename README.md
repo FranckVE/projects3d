@@ -4,6 +4,10 @@
 
 Projects3D intends to demonstrate how to use ThreeJs (www.threejs.org) with Angular 5 through several progressive examples with minimal interface.
 
+## Original README
+
+[original README](./original_README.md)
+
 ## Creation of the project
 
 #### Upgrade NodeJs and NPM
