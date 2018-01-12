@@ -51,6 +51,10 @@ export class ThreePrimitivesService {
 
     stats;
 
+    raycaster;
+    mouse;
+    highlightObj;
+
     nextPositionX = 0;
     nextPositionY = 0;
     nextPositionZ = 0;
@@ -503,6 +507,15 @@ export class ThreePrimitivesService {
         this.camera.aspect = window.innerWidth / window.innerHeight;
     }
 
+    createMouseRaycaster() {
+        this.raycaster = new THREE.Raycaster();
+        this.mouse = new THREE.Vector2();
+        window.addEventListener( 'mousemove', e => {
+            this.mouse.x = ( ( e.clientX - this.canvas.offsetLeft ) / this.canvas.clientWidth ) * 2 - 1;
+            this.mouse.y = - ( ( e.clientY - this.canvas.offsetTop ) / this.canvas.clientHeight ) * 2 + 1;
+        }, false );
+    }
+
     //
     //
     // 3D RENDERING AND ANIMATION LOOP METHODS
@@ -514,7 +527,6 @@ export class ThreePrimitivesService {
             const render = () => {
                 requestAnimationFrame(render);
                 this.renderScene();
-
                 this.animate();
             };
         } else {
@@ -523,12 +535,42 @@ export class ThreePrimitivesService {
     }
 
     renderScene() {
+        if (this.raycaster) {
+            this.hoverEffect();
+        }
         this.stats.update();
         this.renderer.render(this.scene, this.camera);
     }
 
     renderedSize() {
         this.renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
+    }
+
+    hoverEffect() {
+        this.raycaster.setFromCamera( this.mouse, this.camera );
+        if (this.highlightObj) {
+            const selectedObject = this.scene.getObjectByName('highlightObj');
+            if (selectedObject) {
+                selectedObject.parent.remove( selectedObject );
+            }
+        }
+        const intersects = this.raycaster.intersectObjects( this.scene.children, true );
+        for (let i = 0; i < intersects.length; i++) {
+            const intersect = intersects[i];
+            if (intersect.object instanceof THREE.Mesh) {
+                const obj: THREE.Mesh = intersect.object;
+                this.highlightObj = new THREE.Mesh(obj.geometry.clone(), new THREE.MeshPhongMaterial({
+                    side: THREE.BackSide,
+                    color: 'blue'
+                }));
+                this.highlightObj.scale.set(1.1, 1.1, 1.1);
+                const objPos = obj.position.clone();
+                this.highlightObj.position.set(objPos.x, objPos.y, objPos.z);
+                this.highlightObj.name = 'highlightObj';
+                obj.parent.add( this.highlightObj );
+                break;
+            }
+        }
     }
 
     //
@@ -595,7 +637,16 @@ export class ThreePrimitivesService {
         this.scene.add(this.cubeContainer);
         // create an animation sequence with the tracks
         // If a negative time value is passed, the duration will be calculated from the times of the passed tracks array
-        this.position = new THREE.VectorKeyframeTrack('.position', [2, 3.6, 4], [0, -30, 0, 0, 2, 0, 0, 0, 0], THREE.InterpolateSmooth);
+        this.position = new THREE.VectorKeyframeTrack('.position',
+            [ // Keyframes
+                2, // 1
+                3.6, // 2
+                4 // 3
+            ], [ // Position X, Y, Z on keyframes
+                0, -30, 0, // 1
+                0, 2, 0, // 2
+                0, 0, 0 // 3
+            ], THREE.InterpolateSmooth);
         this.clip = new THREE.AnimationClip('Action', 4, [this.position]);
 
         // setup the AnimationMixer

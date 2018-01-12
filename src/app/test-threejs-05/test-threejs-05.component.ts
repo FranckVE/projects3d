@@ -32,6 +32,8 @@ export class TestThreejs05Component implements OnInit {
         // this.threePrimitiveService.buildDemoScene3();
 
         this.threePrimitiveService.postProcessScene(this.element3dSceneRef, this.elementStatsRef);
+
+        this.threePrimitiveService.createMouseRaycaster();
     }
 
     onDownload3DCapture() {
