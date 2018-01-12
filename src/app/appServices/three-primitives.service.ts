@@ -51,6 +51,7 @@ export class ThreePrimitivesService {
 
     stats;
 
+    target;
     raycaster;
     mouse;
     highlightObj;
@@ -514,6 +515,12 @@ export class ThreePrimitivesService {
             this.mouse.x = ( ( e.clientX - this.canvas.offsetLeft ) / this.canvas.clientWidth ) * 2 - 1;
             this.mouse.y = - ( ( e.clientY - this.canvas.offsetTop ) / this.canvas.clientHeight ) * 2 + 1;
         }, false );
+        this.canvas.addEventListener( 'mousedown', e => {
+            const obj = this.itemInFrontOfMouse(THREE.Mesh);
+            if (obj) {
+                this.target = this.target !== obj ? obj : undefined;
+            }
+        });
     }
 
     //
@@ -538,6 +545,11 @@ export class ThreePrimitivesService {
         if (this.raycaster) {
             this.hoverEffect();
         }
+        if (this.target) {
+            this.controls.target = this.target.getWorldPosition();
+        } else {
+            this.controls.target = new THREE.Vector3();
+        }
         this.stats.update();
         this.renderer.render(this.scene, this.camera);
     }
@@ -546,30 +558,39 @@ export class ThreePrimitivesService {
         this.renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
     }
 
-    hoverEffect() {
+    itemInFrontOfMouse(itemType: any) {
         this.raycaster.setFromCamera( this.mouse, this.camera );
+        const intersects = this.raycaster.intersectObjects( this.scene.children, true );
+        for (let i = 0; i < intersects.length; i++) {
+            const intersect = intersects[i];
+            if (intersect.object instanceof itemType) {
+                return intersect.object;
+            }
+        }
+        return;
+    }
+
+    hoverEffect() {
         if (this.highlightObj) {
             const selectedObject = this.scene.getObjectByName('highlightObj');
             if (selectedObject) {
                 selectedObject.parent.remove( selectedObject );
             }
         }
-        const intersects = this.raycaster.intersectObjects( this.scene.children, true );
-        for (let i = 0; i < intersects.length; i++) {
-            const intersect = intersects[i];
-            if (intersect.object instanceof THREE.Mesh) {
-                const obj: THREE.Mesh = intersect.object;
-                this.highlightObj = new THREE.Mesh(obj.geometry.clone(), new THREE.MeshBasicMaterial({
+        const obj: THREE.Mesh = this.itemInFrontOfMouse(THREE.Mesh);
+        if (obj) {
+            this.highlightObj = new THREE.Mesh(
+                obj.geometry.clone(),
+                new THREE.MeshBasicMaterial({
                     side: THREE.BackSide,
                     color: 'blue'
-                }));
-                this.highlightObj.scale.multiplyScalar(1.05);
-                const objPos = obj.position.clone();
-                this.highlightObj.position.set(objPos.x, objPos.y, objPos.z);
-                this.highlightObj.name = 'highlightObj';
-                obj.parent.add( this.highlightObj );
-                break;
-            }
+                })
+            );
+            this.highlightObj.scale.multiplyScalar(1.1);
+            const objPos = obj.position.clone();
+            this.highlightObj.position.set(objPos.x, objPos.y, objPos.z);
+            this.highlightObj.name = 'highlightObj';
+            obj.parent.add( this.highlightObj );
         }
     }
 
