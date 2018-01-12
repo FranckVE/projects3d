@@ -595,7 +595,7 @@ export class ThreePrimitivesService {
         this.scene.add(this.cubeContainer);
         // create an animation sequence with the tracks
         // If a negative time value is passed, the duration will be calculated from the times of the passed tracks array
-        this.position = new THREE.VectorKeyframeTrack('.position', [2, 3.6, 4], [0, -30, 0, 0, 18, 0, 0, 16, 0], THREE.InterpolateSmooth);
+        this.position = new THREE.VectorKeyframeTrack('.position', [2, 3.6, 4], [0, -30, 0, 0, 2, 0, 0, 0, 0], THREE.InterpolateSmooth);
         this.clip = new THREE.AnimationClip('Action', 4, [this.position]);
 
         // setup the AnimationMixer
