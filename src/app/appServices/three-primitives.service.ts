@@ -559,11 +559,11 @@ export class ThreePrimitivesService {
             const intersect = intersects[i];
             if (intersect.object instanceof THREE.Mesh) {
                 const obj: THREE.Mesh = intersect.object;
-                this.highlightObj = new THREE.Mesh(obj.geometry.clone(), new THREE.MeshPhongMaterial({
+                this.highlightObj = new THREE.Mesh(obj.geometry.clone(), new THREE.MeshBasicMaterial({
                     side: THREE.BackSide,
                     color: 'blue'
                 }));
-                this.highlightObj.scale.set(1.1, 1.1, 1.1);
+                this.highlightObj.scale.multiplyScalar(1.05);
                 const objPos = obj.position.clone();
                 this.highlightObj.position.set(objPos.x, objPos.y, objPos.z);
                 this.highlightObj.name = 'highlightObj';
